@@ -1,79 +1,112 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# SignMeUp
 
-# Getting Started
+Event registration and management platform available on web and mobile.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Projects
 
-## Step 1: Start the Metro Server
+This repository contains two applications:
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### 🌐 Web Application (`/web`)
 
-To start Metro, run the following command from the _root_ of your React Native project:
+A modern web application built with React, TypeScript, and Firebase.
+
+**Features:**
+- User authentication with Firebase Auth
+- Event browsing and registration
+- Real-time updates with Firestore
+- Responsive design for all devices
+- Ready for deployment (Netlify, Vercel, Firebase Hosting)
+
+**Tech Stack:**
+- React 18 + TypeScript
+- Vite (build tool)
+- Firebase (Auth + Firestore)
+- React Router 6
+
+**Quick Start:**
+```bash
+cd web
+npm install
+cp .env.example .env.local
+# Add your Firebase credentials to .env.local
+npm run dev
+```
+
+See [web/README.md](web/README.md) for detailed documentation.
+
+---
+
+### 📱 Mobile Application (React Native)
+
+A React Native mobile application for iOS and Android.
+
+**Features:**
+- Cross-platform mobile app (iOS & Android)
+- Built with React Native
+
+**Tech Stack:**
+- React Native 0.76.3
+- TypeScript
+- React 18
+
+**Quick Start:**
+
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions.
 
 ```bash
-# using npm
+# Install dependencies
+npm install
+
+# Start Metro bundler
 npm start
 
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
+# Run on Android
 npm run android
 
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
+# Run on iOS
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Development
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+### Prerequisites
 
-## Step 3: Modifying your App
+- Node.js 18 or higher
+- npm or yarn
+- For mobile: React Native development environment
+- For web: Firebase account
 
-Now that you have successfully run the app, let's modify it.
+### Repository Structure
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+```
+SignMeUp/
+├── web/                  # Web application
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── config/
+│   ├── package.json
+│   └── README.md
+├── android/              # React Native Android
+├── ios/                  # React Native iOS
+├── App.tsx              # React Native entry point
+├── package.json         # React Native dependencies
+└── README.md           # This file
+```
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+## Contributing
 
-## Congratulations! :tada:
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-You've successfully run and modified your React Native App. :partying_face:
+## License
 
-### Now what?
+This project is open source and available under the MIT License.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+## Support
 
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+For questions or issues, please open an issue in the GitHub repository.

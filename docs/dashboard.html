@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SignMeUp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: #1f2937;
+            background-color: #f9fafb;
+        }
+
+        .header {
+            background-color: white;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-name {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4f46e5;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-section p {
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4f46e5;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #1f2937;
+        }
+
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        .event-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .event-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            transition: box-shadow 0.2s;
+        }
+
+        .event-item:hover {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .event-info h4 {
+            font-size: 1.125rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .event-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .event-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-past {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .event-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">📝</span>
+                SignMeUp
+            </a>
+            <div class="user-menu">
+                <span class="user-name" id="user-name">Loading...</span>
+                <button onclick="handleLogout()" class="btn btn-secondary">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1 id="welcome-title">Welcome back!</h1>
+            <p>Here's what's happening with your events</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>Upcoming Events</h3>
+                <div class="stat-value" id="upcoming-count">0</div>
+                <div class="stat-label">events you're registered for</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Past Events</h3>
+                <div class="stat-value" id="past-count">0</div>
+                <div class="stat-label">events you attended</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Registrations</h3>
+                <div class="stat-value" id="total-count">0</div>
+                <div class="stat-label">all time</div>
+            </div>
+        </div>
+
+        <!-- Upcoming Events -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Upcoming Events</h2>
+                <a href="events.html" class="btn btn-primary">Browse Events</a>
+            </div>
+
+            <div id="upcoming-events" class="event-list">
+                <!-- Events will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Past Events -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Past Events</h2>
+            </div>
+
+            <div id="past-events" class="event-list">
+                <!-- Events will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        function checkAuth() {
+            const user = localStorage.getItem('signmeup_user');
+            if (!user) {
+                window.location.href = 'app.html';
+                return null;
+            }
+            return JSON.parse(user);
+        }
+
+        // Handle logout
+        function handleLogout() {
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('signmeup_user');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return new Intl.DateTimeFormat('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            }).format(date);
+        }
+
+        // Mock event data
+        const mockEvents = [
+            {
+                id: 1,
+                title: "Web Development Workshop 2026",
+                date: "2026-07-15T10:00:00",
+                location: "Tech Hub, San Francisco",
+                registered: true,
+                attended: false
+            },
+            {
+                id: 2,
+                title: "React Conference",
+                date: "2026-08-22T09:00:00",
+                location: "Convention Center, New York",
+                registered: true,
+                attended: false
+            },
+            {
+                id: 3,
+                title: "Startup Networking Event",
+                date: "2026-06-01T18:00:00",
+                location: "Downtown Coworking, Austin",
+                registered: true,
+                attended: true
+            }
+        ];
+
+        // Load dashboard
+        function loadDashboard() {
+            const user = checkAuth();
+            if (!user) return;
+
+            // Update user name
+            document.getElementById('user-name').textContent = user.name || user.email;
+            document.getElementById('welcome-title').textContent = `Welcome back, ${user.name || user.email.split('@')[0]}!`;
+
+            // Filter events
+            const now = new Date();
+            const upcomingEvents = mockEvents.filter(e => new Date(e.date) > now);
+            const pastEvents = mockEvents.filter(e => new Date(e.date) <= now);
+
+            // Update stats
+            document.getElementById('upcoming-count').textContent = upcomingEvents.length;
+            document.getElementById('past-count').textContent = pastEvents.length;
+            document.getElementById('total-count').textContent = mockEvents.length;
+
+            // Render upcoming events
+            const upcomingContainer = document.getElementById('upcoming-events');
+            if (upcomingEvents.length === 0) {
+                upcomingContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📅</div>
+                        <h3>No upcoming events</h3>
+                        <p>Browse events and register for something exciting!</p>
+                        <a href="events.html" class="btn btn-primary">Browse Events</a>
+                    </div>
+                `;
+            } else {
+                upcomingContainer.innerHTML = upcomingEvents.map(event => `
+                    <div class="event-item">
+                        <div class="event-info">
+                            <h4>${event.title}</h4>
+                            <div class="event-meta">
+                                <span>📅 ${formatDate(event.date)}</span>
+                                <span>📍 ${event.location}</span>
+                            </div>
+                        </div>
+                        <span class="event-status status-upcoming">Upcoming</span>
+                    </div>
+                `).join('');
+            }
+
+            // Render past events
+            const pastContainer = document.getElementById('past-events');
+            if (pastEvents.length === 0) {
+                pastContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🎉</div>
+                        <h3>No past events</h3>
+                        <p>Your attended events will appear here</p>
+                    </div>
+                `;
+            } else {
+                pastContainer.innerHTML = pastEvents.map(event => `
+                    <div class="event-item">
+                        <div class="event-info">
+                            <h4>${event.title}</h4>
+                            <div class="event-meta">
+                                <span>📅 ${formatDate(event.date)}</span>
+                                <span>📍 ${event.location}</span>
+                            </div>
+                        </div>
+                        <span class="event-status status-past">Attended</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>
