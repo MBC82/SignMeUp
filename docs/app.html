@@ -219,6 +219,52 @@
             margin-top: 0.5rem;
         }
 
+        .form-input.invalid {
+            border-color: #ef4444;
+        }
+
+        .form-input.valid {
+            border-color: #10b981;
+        }
+
+        .field-error {
+            color: #ef4444;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .field-error.show {
+            display: block;
+        }
+
+        .password-strength {
+            height: 4px;
+            background-color: #e5e7eb;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            transition: width 0.3s, background-color 0.3s;
+            width: 0%;
+        }
+
+        .strength-weak { background-color: #ef4444; width: 33%; }
+        .strength-medium { background-color: #f59e0b; width: 66%; }
+        .strength-strong { background-color: #10b981; width: 100%; }
+
+        .password-strength-text {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .text-weak { color: #ef4444; }
+        .text-medium { color: #f59e0b; }
+        .text-strong { color: #10b981; }
+
         .success-message {
             text-align: center;
         }
@@ -323,7 +369,9 @@
                             class="form-input"
                             placeholder="you@example.com"
                             required
+                            oninput="validateEmail(this)"
                         >
+                        <div class="field-error" id="email-error">Please enter a valid email address</div>
                     </div>
 
                     <div class="form-group">
@@ -336,10 +384,13 @@
                             placeholder="••••••••"
                             minlength="6"
                             required
+                            oninput="validatePassword(this)"
                         >
-                        <div class="password-requirements">
-                            Must be at least 6 characters
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="strength-bar"></div>
                         </div>
+                        <div class="password-strength-text" id="strength-text"></div>
+                        <div class="field-error" id="password-error">Password must be at least 6 characters</div>
                     </div>
 
                     <div class="form-group">
@@ -351,7 +402,9 @@
                             class="form-input"
                             placeholder="••••••••"
                             required
+                            oninput="validateConfirmPassword(this)"
                         >
+                        <div class="field-error" id="confirm-error">Passwords do not match</div>
                     </div>
 
                     <button type="submit" class="btn btn-primary" id="signup-btn">
@@ -468,6 +521,110 @@
                     window.location.href = 'dashboard.html';
                 }, 1500);
             }, 1000);
+        }
+
+        // Email validation
+        function validateEmail(input) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isValid = emailRegex.test(input.value);
+            const errorEl = document.getElementById('email-error');
+
+            if (input.value === '') {
+                input.classList.remove('valid', 'invalid');
+                errorEl.classList.remove('show');
+            } else if (isValid) {
+                input.classList.remove('invalid');
+                input.classList.add('valid');
+                errorEl.classList.remove('show');
+            } else {
+                input.classList.remove('valid');
+                input.classList.add('invalid');
+                errorEl.classList.add('show');
+            }
+            return isValid;
+        }
+
+        // Password strength validation
+        function validatePassword(input) {
+            const password = input.value;
+            const strengthBar = document.getElementById('strength-bar');
+            const strengthText = document.getElementById('strength-text');
+            const errorEl = document.getElementById('password-error');
+
+            // Remove all strength classes
+            strengthBar.className = 'password-strength-bar';
+            strengthText.className = 'password-strength-text';
+
+            if (password.length === 0) {
+                input.classList.remove('valid', 'invalid');
+                strengthText.textContent = '';
+                errorEl.classList.remove('show');
+                return;
+            }
+
+            // Calculate strength
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+
+            // Update UI based on strength
+            if (password.length < 6) {
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+                errorEl.classList.add('show');
+                strengthText.textContent = 'Too short';
+                strengthText.classList.add('text-weak');
+            } else if (strength <= 2) {
+                input.classList.add('valid');
+                input.classList.remove('invalid');
+                errorEl.classList.remove('show');
+                strengthBar.classList.add('strength-weak');
+                strengthText.textContent = 'Weak password';
+                strengthText.classList.add('text-weak');
+            } else if (strength <= 3) {
+                input.classList.add('valid');
+                input.classList.remove('invalid');
+                errorEl.classList.remove('show');
+                strengthBar.classList.add('strength-medium');
+                strengthText.textContent = 'Medium strength';
+                strengthText.classList.add('text-medium');
+            } else {
+                input.classList.add('valid');
+                input.classList.remove('invalid');
+                errorEl.classList.remove('show');
+                strengthBar.classList.add('strength-strong');
+                strengthText.textContent = 'Strong password';
+                strengthText.classList.add('text-strong');
+            }
+
+            // Also validate confirm password if it has a value
+            const confirmInput = document.getElementById('signup-confirm');
+            if (confirmInput.value) {
+                validateConfirmPassword(confirmInput);
+            }
+        }
+
+        // Confirm password validation
+        function validateConfirmPassword(input) {
+            const password = document.getElementById('signup-password').value;
+            const confirm = input.value;
+            const errorEl = document.getElementById('confirm-error');
+
+            if (confirm === '') {
+                input.classList.remove('valid', 'invalid');
+                errorEl.classList.remove('show');
+            } else if (password === confirm) {
+                input.classList.remove('invalid');
+                input.classList.add('valid');
+                errorEl.classList.remove('show');
+            } else {
+                input.classList.remove('valid');
+                input.classList.add('invalid');
+                errorEl.classList.add('show');
+            }
         }
 
         // Check if already logged in

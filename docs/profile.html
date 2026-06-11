@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - SignMeUp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: #1f2937;
+            background-color: #f9fafb;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: white;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #1f2937;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #4f46e5;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: white;
+            color: #4f46e5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #1f2937;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1f2937;
+            font-size: 0.875rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-input:disabled {
+            background-color: #f3f4f6;
+            cursor: not-allowed;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .alert {
+            padding: 0.875rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4f46e5;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .danger-zone {
+            border: 2px solid #fee2e2;
+            background-color: #fef2f2;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .danger-zone h3 {
+            color: #991b1b;
+            margin-bottom: 0.5rem;
+        }
+
+        .danger-zone p {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">📝</span>
+                SignMeUp
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="events.html" class="nav-link">Events</a>
+                <button onclick="handleLogout()" class="btn btn-secondary">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-avatar" id="avatar">?</div>
+            <div class="profile-name" id="profile-name">Loading...</div>
+            <div class="profile-email" id="profile-email"></div>
+        </div>
+
+        <div id="alert-container"></div>
+
+        <!-- Profile Information -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Profile Information</h2>
+                <button onclick="toggleEdit()" class="btn btn-secondary" id="edit-btn">Edit</button>
+            </div>
+
+            <form id="profile-form" onsubmit="handleSave(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input" id="firstName" disabled required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input" id="lastName" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="email" disabled required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" id="phone" disabled>
+                </div>
+
+                <div id="save-buttons" style="display: none;">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" onclick="cancelEdit()" class="btn btn-secondary" style="margin-left: 0.5rem;">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Account Stats -->
+        <div class="card">
+            <h2 class="card-title">Your Activity</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Events Registered</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Events Attended</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Upcoming Events</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="card">
+            <div class="danger-zone">
+                <h3>Danger Zone</h3>
+                <p>Once you delete your account, there is no going back. Please be certain.</p>
+                <button onclick="handleDeleteAccount()" class="btn btn-danger">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isEditing = false;
+
+        // Check authentication
+        function checkAuth() {
+            const user = localStorage.getItem('signmeup_user');
+            if (!user) {
+                window.location.href = 'app.html';
+                return null;
+            }
+            return JSON.parse(user);
+        }
+
+        // Show alert
+        function showAlert(message, type = 'success') {
+            const alertHTML = `<div class="alert alert-${type}">${message}</div>`;
+            document.getElementById('alert-container').innerHTML = alertHTML;
+            setTimeout(() => {
+                document.getElementById('alert-container').innerHTML = '';
+            }, 3000);
+        }
+
+        // Toggle edit mode
+        function toggleEdit() {
+            isEditing = !isEditing;
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                if (input.id !== 'email') { // Email shouldn't be editable
+                    input.disabled = !isEditing;
+                }
+            });
+
+            document.getElementById('save-buttons').style.display = isEditing ? 'block' : 'none';
+            document.getElementById('edit-btn').textContent = isEditing ? 'Cancel' : 'Edit';
+
+            if (!isEditing) {
+                loadProfile();
+            }
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            toggleEdit();
+        }
+
+        // Handle save
+        function handleSave(event) {
+            event.preventDefault();
+
+            const user = checkAuth();
+            if (!user) return;
+
+            // Get form data
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
+
+            // Update user data
+            user.name = firstName + (lastName ? ' ' + lastName : '');
+            user.phone = phone;
+            user.firstName = firstName;
+            user.lastName = lastName;
+
+            localStorage.setItem('signmeup_user', JSON.stringify(user));
+
+            showAlert('✅ Profile updated successfully!');
+            toggleEdit();
+            loadProfile();
+        }
+
+        // Handle logout
+        function handleLogout() {
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('signmeup_user');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Handle delete account
+        function handleDeleteAccount() {
+            if (confirm('⚠️ Are you absolutely sure? This action cannot be undone!')) {
+                if (confirm('This will permanently delete your account and all associated data. Continue?')) {
+                    localStorage.removeItem('signmeup_user');
+                    alert('Your account has been deleted.');
+                    window.location.href = 'index.html';
+                }
+            }
+        }
+
+        // Load profile data
+        function loadProfile() {
+            const user = checkAuth();
+            if (!user) return;
+
+            // Display profile header
+            const nameParts = (user.name || user.email).split(' ');
+            const initials = nameParts.map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
+            document.getElementById('avatar').textContent = initials;
+            document.getElementById('profile-name').textContent = user.name || user.email;
+            document.getElementById('profile-email').textContent = user.email;
+
+            // Populate form
+            document.getElementById('firstName').value = user.firstName || nameParts[0] || '';
+            document.getElementById('lastName').value = user.lastName || nameParts.slice(1).join(' ') || '';
+            document.getElementById('email').value = user.email;
+            document.getElementById('phone').value = user.phone || '';
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+</body>
+</html>
