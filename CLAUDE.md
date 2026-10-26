@@ -1,20 +1,11 @@
 # SignMeUp
 
-React Native 0.76 app (TypeScript). iOS bundle id `com.signmeup`, workspace `ios/SignMeUp.xcworkspace`, scheme `SignMeUp`.
-Screens live in `src/screens`, shared UI in `src/components`, colors in `src/theme.ts`. Design: gold top and bottom bars, navy icons and text, artwork in `assets/`. No Firebase or backend yet; events are held in memory (`src/context/EventsContext.tsx`).
+Native SwiftUI iPhone app (iOS 17+). No CocoaPods, no npm, no third-party dependencies. Bundle id `com.signmeup`, project `SignMeUp.xcodeproj`, scheme `SignMeUp`.
+Sources live in `SignMeUp/` (a synchronized folder: any file added there is built automatically). Colors and shared modifiers in `Theme.swift`, artwork in `Assets.xcassets`. Design: gold top and bottom bars, navy icons and text. No backend yet; events are held in memory (`EventsStore.swift`).
 
-## Build and run in the iPhone simulator
-Run `./run-ios.sh` (default device "iPhone 16 Pro", or pass another name). It installs dependencies and pods, boots the simulator, starts Metro, builds with `xcodebuild`, installs and launches the app.
+## Build and run
+Run `./run-ios.sh` (default device "iPhone 16 Pro", or pass another name). Or open `SignMeUp.xcodeproj` in Xcode and press Run.
 
-Do not use `npx react-native run-ios`. On this machine it fails looking for `Simulator.app` at an old path.
+Manual: `xcodebuild -project SignMeUp.xcodeproj -scheme SignMeUp -configuration Debug -destination "id=<simulator UDID>" -derivedDataPath build build`, then `xcrun simctl install <UDID> <path to SignMeUp.app>` and `xcrun simctl launch <UDID> com.signmeup`.
 
-Manual steps if needed:
-1. `npm install --legacy-peer-deps && (cd ios && pod install)`
-2. `npx react-native start` (leave running)
-3. `xcodebuild -workspace ios/SignMeUp.xcworkspace -scheme SignMeUp -configuration Debug -destination "id=<simulator UDID>" -derivedDataPath ios/build build`
-4. `xcrun simctl install <UDID> <path to SignMeUp.app>` then `xcrun simctl launch <UDID> com.signmeup`
-
-Simulator UDIDs: `xcrun simctl list devices available`. Never pick a watchOS destination; the app is iPhone only.
-
-## Workflow
-After JS changes, Metro reloads the running app (press `r` in the Metro terminal or Cmd+R in the simulator). Native changes (Podfile, new native packages) need `pod install` and a rebuild.
+Simulator UDIDs: `xcrun simctl list devices available`. The app is iPhone only; never pick a watchOS destination.
